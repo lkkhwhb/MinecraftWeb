@@ -10,7 +10,7 @@ const numMods = 0;
 const loadingBar = document.getElementById("loadingBar");
 const loadingScreen = document.getElementById("loadingScreen");
 
-const loadingScreenBgMusic = new Audio("/custom_assets/loadingscreen.weba");
+const loadingScreenBgMusic = new Audio("/custom_assets/loadingscreen.mp3");
 loadingScreenBgMusic.loop = false;
 
 async function startLoadingMusic() {
