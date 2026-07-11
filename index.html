@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>26.2</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="importmap">
+        {
+          "imports": {
+              "three": "https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js",
+              "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.1/examples/jsm/"
+          }
+        }
+    </script>
+    <script type="module" src="script.js" defer></script>
+</head>
+
+<body>
+    <div id="loadingScreen">
+        <img id="mojangLogo" src="custom_assets/mojang-logo-2.gif">
+        <div id="loadingBarContainer">
+            <div id="loadingBar"></div>
+        </div>
+    </div>
+    <div id="debugScreen" hidden></div>
+    <!-- Main HUD -->
+    <div class="hud">
+        <canvas id="panorama"></canvas>
+        <div id="blurOverlay"></div>
+
+        <div id="menu">
+            <div class="logo">
+                <img id="minecraftLogo" src="minecraft_assets/textures/gui/title/minecraft.png">
+                <img id="editionLogo" src="minecraft_assets/textures/gui/title/edition.png">
+                <div id="splashText">Open Sourced!</div>
+            </div>
+            <div id="buttons">
+                <div class="menuButton" id="singleplayerButton" title="Singleplayer">Singleplayer</div>
+                <div class="menuButton button-disabled" id="multiplayerButton" title="Multiplayer">Multiplayer</div>
+                <div class="menuButton button-disabled" id="realmsButton" title="Minecraft Realms">Minecraft Realms
+                </div>
+            </div>
+
+            <div id="middleButtons">
+                <div class="iconButton" id="friends" title="Friends">
+                    <img src="minecraft_assets/textures/gui/sprites/friends/friends.png">
+                </div>
+
+                <div class="iconButton" id="language" title="Language">
+                    <img src="minecraft_assets/textures/gui/sprites/icon/language.png">
+                </div>
+
+                <div class="iconButton" id="accessibility" title="Accessibility">
+                    <img src="minecraft_assets/textures/gui/sprites/icon/accessibility.png">
+                </div>
+
+                <div class="iconButton" id="modMenu" title="Mod menu">
+                    <img src="custom_assets/modmenu.png">
+                </div>
+            </div>
+
+            <div class="bottomButtons">
+                <div class="bottomBtn" title="Options">Options...</div>
+                <div class="bottomBtn" id="quitGame" title="Restart Game">Restart Game</div>
+            </div>
+        </div>
+
+        <div id="singleplayerScreen" style="display: none;">
+            <div class="screenTitle">Select World</div>
+            <div class="worldListContainer">
+                <div class="worldList" id="worldList">
+                    <!-- Worlds will be dynamically added here -->
+                </div>
+            </div>
+
+            <div class="worldScreenButtons">
+                <div class="row">
+                    <div class="bottomBtn" id="playWorldButton">Play Selected World</div>
+                    <div class="bottomBtn" id="createWorldButton">Create New World</div>
+                </div>
+                <div class="row">
+                    <div class="bottomBtn" id="editWorldButton">Edit</div>
+                    <div class="bottomBtn" id="deleteWorldButton">Delete</div>
+                    <div class="bottomBtn" id="recreateWorldButton">Re-Create</div>
+                    <div class="bottomBtn" id="backToMenuButton">Back</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="createWorldScreen" style="display: none;">
+            <div class="createWorldHeader">
+                <div class="tabs">
+                    <div class="tab selected" id="gameTab">Game</div>
+                    <div class="tab" id="worldTab">World</div>
+                    <div class="tab" id="moreTab">More</div>
+                </div>
+            </div>
+
+            <div class="createWorldContent">
+                <!-- Game Panel -->
+                <div id="gameTabPanel" class="tabPanel">
+                    <div class="inputGroup">
+                        <label for="worldNameInput">World Name</label>
+                        <input type="text" id="worldNameInput" value="New World">
+                    </div>
+
+                    <div class="optionsGrid">
+                        <div class="optionBtn" id="gameModeBtn">Game Mode: <span class="text-white">Survival</span>
+                        </div>
+                        <div class="optionBtn" id="difficultyBtn">Difficulty: <span class="text-yellow">Normal</span>
+                        </div>
+                        <div class="optionBtn" id="allowCommandsBtn">Allow Commands: <span class="text-red">OFF</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- World Panel -->
+                <div id="worldTabPanel" class="tabPanel" style="display: none;">
+                    <div class="optionsRow">
+                        <div class="optionBtn" id="worldTypeBtn" style="flex: 1;">World Type: <span
+                                class="text-white">Default</span></div>
+                        <div class="optionBtn disabledBtn" id="customizeWorldBtn" style="flex: 1; margin-left: 15px;">
+                            Customize</div>
+                    </div>
+
+                    <div class="inputGroup" style="margin-top: 25px;">
+                        <label for="worldSeedInput">Seed for the world generator</label>
+                        <input type="text" id="worldSeedInput" placeholder="Leave blank for a random seed">
+                    </div>
+
+                    <div class="toggleRow">
+                        <span class="toggleLabel">Generate Structures</span>
+                        <div class="optionBtn toggleBtn" id="generateStructuresBtn"><span class="text-green">ON</span>
+                        </div>
+                    </div>
+
+                    <div class="toggleRow">
+                        <span class="toggleLabel">Bonus Chest</span>
+                        <div class="optionBtn toggleBtn" id="bonusChestBtn"><span class="text-red">OFF</span></div>
+                    </div>
+                </div>
+
+                <!-- More Panel -->
+                <div id="moreTabPanel" class="tabPanel" style="display: none;">
+                    <div class="optionsGrid">
+                        <div class="optionBtn" id="gameRulesBtn">Game Rules</div>
+                        <div class="optionBtn" id="experimentsBtn">Experiments</div>
+                        <div class="optionBtn" id="dataPacksBtn">Data Packs</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="worldScreenButtons" style="margin-top: auto; margin-bottom: 20px;">
+                <div class="row" style="justify-content: center; gap: 20px;">
+                    <div class="bottomBtn" id="confirmCreateWorldBtn" style="flex: 0 1 300px;">Create New World</div>
+                    <div class="bottomBtn" id="cancelCreateWorldBtn" style="flex: 0 1 300px;">Cancel</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="worldLoadingScreen" style="display: none;">
+            <img id="loadingMinecraftLogo" src="minecraft_assets/textures/gui/title/minecraft.png">
+            <div class="loadingBox">
+                <div class="loadingTitle">Loading</div>
+                <div class="loadingTipContainer">
+                    <p id="loadingTipText">It's a good idea to build a place where you can safely spend the night.</p>
+                </div>
+                <div class="loadingBarBg">
+                    <div id="worldLoadingBar"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Rules Screen -->
+        <div id="gameRulesScreen" class="overlayScreen" style="display: none;">
+            <div class="screenTitle">Edit Game Rules</div>
+            <div class="screenContent">
+                <div class="rulesList">
+                    <div class="ruleRow">
+                        <div class="ruleInfo">
+                            <span class="ruleName">Allow Cheats</span>
+                            <span class="ruleDesc">Controls whether cheats can be used in the world.</span>
+                        </div>
+                        <div class="optionBtn toggleBtn" id="ruleAllowCheatsBtn"><span class="text-red">OFF</span></div>
+                    </div>
+                    <div class="ruleRow">
+                        <div class="ruleInfo">
+                            <span class="ruleName">Keep Inventory</span>
+                            <span class="ruleDesc">Keep items and XP in inventory after death.</span>
+                        </div>
+                        <div class="optionBtn toggleBtn" id="ruleKeepInventoryBtn"><span class="text-red">OFF</span>
+                        </div>
+                    </div>
+                    <div class="ruleRow">
+                        <div class="ruleInfo">
+                            <span class="ruleName">Do Daylight Cycle</span>
+                            <span class="ruleDesc">Controls whether time progresses in the world.</span>
+                        </div>
+                        <div class="optionBtn toggleBtn" id="ruleDaylightCycleBtn"><span class="text-green">ON</span>
+                        </div>
+                    </div>
+                    <div class="ruleRow">
+                        <div class="ruleInfo">
+                            <span class="ruleName">Do Mob Spawning</span>
+                            <span class="ruleDesc">Controls whether mobs spawn naturally.</span>
+                        </div>
+                        <div class="optionBtn toggleBtn" id="ruleMobSpawningBtn"><span class="text-green">ON</span>
+                        </div>
+                    </div>
+                    <div class="ruleRow">
+                        <div class="ruleInfo">
+                            <span class="ruleName">Spawn Radius</span>
+                            <span class="ruleDesc">Radius in blocks around spawn point for new players.</span>
+                        </div>
+                        <input type="number" class="ruleInput" id="ruleSpawnRadiusInput" value="10">
+                    </div>
+                    <div class="ruleRow">
+                        <div class="ruleInfo">
+                            <span class="ruleName">Random Tick Speed</span>
+                            <span class="ruleDesc">Ticks per second for crop growth, fire spreading, etc.</span>
+                        </div>
+                        <input type="number" class="ruleInput" id="ruleTickSpeedInput" value="3">
+                    </div>
+                </div>
+            </div>
+            <div class="screenButtons"
+                style="display: flex; gap: 20px; justify-content: center; width: 100%; max-width: 600px; margin: 0 auto; margin-top: auto; margin-bottom: 20px;">
+                <div class="bottomBtn" id="gameRulesDoneBtn" style="flex: 1;">Done</div>
+                <div class="bottomBtn" id="gameRulesCancelBtn" style="flex: 1;">Cancel</div>
+            </div>
+        </div>
+
+        <!-- Experiments Screen -->
+        <div id="experimentsScreen" class="overlayScreen" style="display: none;">
+            <div class="screenTitle">Experiments</div>
+            <div class="screenContent">
+                <div class="warningBanner">WARNING: Experiments might break your world! Proceed with caution.</div>
+                <div class="rulesList" style="margin-top: 20px;">
+                    <div class="ruleRow">
+                        <div class="ruleInfo">
+                            <span class="ruleName">Update 1.21 Features</span>
+                            <span class="ruleDesc">Enable blocks, items, and structures for version 1.21.</span>
+                        </div>
+                        <div class="optionBtn toggleBtn" id="expUpdate121Btn"><span class="text-red">OFF</span></div>
+                    </div>
+                    <div class="ruleRow">
+                        <div class="ruleInfo">
+                            <span class="ruleName">Villager Trade Rebalance</span>
+                            <span class="ruleDesc">Rebalance trading rates and mechanics for villager
+                                professions.</span>
+                        </div>
+                        <div class="optionBtn toggleBtn" id="expTradeRebalanceBtn"><span class="text-red">OFF</span>
+                        </div>
+                    </div>
+                    <div class="ruleRow">
+                        <div class="ruleInfo">
+                            <span class="ruleName">Minecart Improvements</span>
+                            <span class="ruleDesc">Speed adjustments and improved snapping mechanics.</span>
+                        </div>
+                        <div class="optionBtn toggleBtn" id="expMinecartBtn"><span class="text-red">OFF</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="screenButtons"
+                style="display: flex; gap: 20px; justify-content: center; width: 100%; max-width: 600px; margin: 0 auto; margin-top: auto; margin-bottom: 20px;">
+                <div class="bottomBtn" id="experimentsDoneBtn" style="flex: 1;">Done</div>
+                <div class="bottomBtn" id="experimentsCancelBtn" style="flex: 1;">Cancel</div>
+            </div>
+        </div>
+
+        <!-- Data Packs Screen -->
+        <div id="dataPacksScreen" class="overlayScreen" style="display: none;">
+            <div class="screenTitle">Select Data Packs</div>
+            <div class="screenContent flexRow"
+                style="height: calc(100% - 150px); display: flex; gap: 20px; margin-top: 20px;">
+                <!-- Available Column -->
+                <div class="packColumn" style="flex: 1; display: flex; flex-direction: column;">
+                    <div class="columnTitle"
+                        style="color: #aaa; text-align: center; margin-bottom: 10px; text-shadow: 2px 2px 0 #000;">
+                        Available</div>
+                    <div class="packList" id="availablePackList"
+                        style="flex: 1; background: rgba(0, 0, 0, 0.4); border: 2px solid #555; padding: 10px; overflow-y: auto;">
+                        <div class="packItem" id="packDefault"
+                            style="display: flex; gap: 15px; padding: 8px; border: 2px solid transparent; cursor: pointer; background: rgba(255, 255, 255, 0.05); margin-bottom: 8px;">
+                            <img class="packIcon" src="minecraft_assets/textures/gui/menu_background.png"
+                                style="width: 48px; height: 48px; border: 1px solid #333;">
+                            <div class="packDetails" style="text-align: left;">
+                                <div class="packName"
+                                    style="color: white; font-size: 16px; text-shadow: 1px 1px 0 #000;">Default Pack
+                                </div>
+                                <div class="packDesc"
+                                    style="color: #aaa; font-size: 12px; text-shadow: 1px 1px 0 #000; margin-top: 4px;">
+                                    Built-in pack details.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Selected Column -->
+                <div class="packColumn" style="flex: 1; display: flex; flex-direction: column;">
+                    <div class="columnTitle"
+                        style="color: #aaa; text-align: center; margin-bottom: 10px; text-shadow: 2px 2px 0 #000;">
+                        Selected</div>
+                    <div class="packList" id="selectedPackList"
+                        style="flex: 1; background: rgba(0, 0, 0, 0.4); border: 2px solid #555; padding: 10px; overflow-y: auto;">
+                        <div class="packItem" id="packVanilla"
+                            style="display: flex; gap: 15px; padding: 8px; border: 2px solid transparent; cursor: pointer; background: rgba(255, 255, 255, 0.05); margin-bottom: 8px;">
+                            <img class="packIcon" src="minecraft_assets/textures/gui/title/edition.png"
+                                style="width: 48px; height: 48px; border: 1px solid #333;">
+                            <div class="packDetails" style="text-align: left;">
+                                <div class="packName"
+                                    style="color: white; font-size: 16px; text-shadow: 1px 1px 0 #000;">Vanilla Resource
+                                </div>
+                                <div class="packDesc"
+                                    style="color: #aaa; font-size: 12px; text-shadow: 1px 1px 0 #000; margin-top: 4px;">
+                                    Vanilla resources and items.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="screenButtons"
+                style="display: flex; gap: 20px; justify-content: center; width: 100%; max-width: 600px; margin: 0 auto; margin-top: auto; margin-bottom: 20px;">
+                <div class="bottomBtn" id="dataPacksDoneBtn" style="flex: 1;">Done</div>
+                <div class="bottomBtn" id="dataPacksCancelBtn" style="flex: 1;">Cancel</div>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <div id="gameVersionInfo"></div>
+        <div class="right-side">
+
+            <div class="copyrightInfo">
+                <p>BBB GROUP . Do not distribute!</p>
+            </div>
+        </div>
+    </div>
+    <div id="audioButton">
+        <img src="custom_assets/audioicon.png" alt="Audio">
+    </div>
+</body>
+
+</html>

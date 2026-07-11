@@ -1,0 +1,866 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --default-background-button: url("minecraft_assets/textures/gui/sprites/friends/button.png");
+    --default-highlighted-background-button: url("minecraft_assets/textures/gui/sprites/friends/button_highlighted.png");
+    --default-background-button-disabled: url("minecraft_assets/textures/gui/sprites/friends/button_disabled.png");
+    --default-square-button: url("custom_assets/button.png")
+}
+
+@font-face {
+    font-family: "Mojangles";
+    src: url("custom_assets/mojangles.otf/mojangles.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    user-select: none;
+    font-family: "Mojangles", sans-serif;
+    background-color: black;
+}
+
+#panorama,
+#blurOverlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#panorama {
+    display: block;
+}
+
+.hud {
+    height: 100%;
+    width: 100%;
+    overflow-y: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.hud #menu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60vw;
+    height: 100vh;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.hud #menu .logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    height: max-content;
+}
+
+.hud #menu .logo #editionLogo {
+    position: relative;
+    bottom: 120px;
+}
+
+@keyframes zoomInZoomOut {
+    0% {
+        transform: rotate(-30deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(-30deg) scale(1.2);
+    }
+
+    100% {
+        transform: rotate(-30deg) scale(1);
+    }
+} 
+
+#splashText {
+    position: absolute;
+    bottom: 90px;
+    left: 70%;
+    color: yellow;
+    font-size: 26px;
+    max-width: 200px;
+    white-space: normal;
+    overflow-wrap: break-word;
+    text-align: center;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    animation: zoomInZoomOut 0.8s infinite ease-in-out;
+    z-index: 10000;
+}
+#buttons {
+    color: white;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 70%;
+    height: 20dvh;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+#buttons .menuButton {
+    background-image:var(--default-background-button);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    height: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+}
+#buttons .menuButton:hover{
+    border: 3px solid white;
+}
+
+.button-disabled{
+    background-image: var(--default-background-button-disabled) !important;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    cursor: not-allowed;
+
+}
+.button-disabled:hover{
+    border: none !important;
+
+}
+#middleButtons{ 
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 5%;
+}
+#middleButtons .iconButton{
+    background-image: var(--default-square-button);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#middleButtons .iconButton:hover{
+    border: 3px solid white;
+}
+#middleButtons .iconButton img{
+    height: 25px;
+    width:  25px;
+}
+#audioButton img{
+    height: 20px;
+    width: 20px;
+}
+
+.bottomButtons {
+    width: 40%;
+    height: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    margin: 2px;
+}
+.bottomButtons .bottomBtn {
+    background-image: var(--default-background-button);
+    height: 85%;
+    width: 55%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+}
+
+.bottomButtons .bottomBtn:hover {
+    border: 3px solid white;
+}
+
+#footer{
+    z-index: 100;
+    position: absolute;
+    bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    width: 100vw;
+    color: white;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    padding: 10px;
+    font-size: 18px;
+}
+
+#audioButton{
+    position: absolute;
+    z-index: 105;
+    background-image: var(--default-square-button);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    bottom: 50px;
+    right: 10px;
+}
+.hovered{
+    border: 3px solid white;
+    cursor: pointer;
+}
+
+#loadingScreen {
+    position: fixed;
+    inset: 0;
+    background: #ef323d;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+
+#mojangLogo {
+    width: 50vw;
+}
+
+#loadingBarContainer {
+    position: absolute;
+    top: 75%;
+    width: 400px;
+    height: 15px;
+    background: #444;
+    z-index: 1000;
+}
+
+#loadingBar {
+    width: 0%;
+    height: 100%;
+    background: white;
+    transition: width .15s linear;
+}
+
+#loadingScreen.fade {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .4s;
+}
+
+#debugScreen {
+    position: fixed;
+    top: 6px;
+    left: 6px;
+    color: white;
+    font-size: 15px;
+    white-space: pre;
+    text-shadow: 2px 2px 2px black;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+
+#debugScreen {
+    position: fixed;
+    top: 6px;
+    left: 6px;
+    color: white;
+    font-size: 15px;
+    white-space: pre;
+    text-shadow: 2px 2px 2px black;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+#debug-left,
+#debug-right {
+    position: fixed;
+    top: 10px;
+    z-index: 99999;
+    font-family: monospace, "Mojangles", sans-serif;
+    font-size: 18px; /* Bigger text */
+    color: white;
+    pointer-events: none;
+    line-height: 1.35;
+}
+
+#debug-left {
+    left: 10px;
+}
+
+#debug-right {
+    right: 10px;
+    text-align: right;
+}
+
+.debug-line {
+    display: block;
+    width: fit-content;
+    padding: 2px 6px;
+    margin-bottom: 2px;
+    background: rgba(0, 0, 0, 0.45);
+    text-shadow: 2px 2px 0px black;
+    white-space: pre;
+}
+
+#debug-right .debug-line {
+    margin-left: auto;
+}
+
+
+.text-white {
+    color: #ffffff;
+}
+
+.text-green {
+    color: #55FF55;
+}
+
+.text-red {
+    color: #FF5555;
+}
+
+.text-orange {
+    color: #FFAA00;
+}
+
+.text-yellow {
+    color: #FFFF55;
+}
+
+.text-blue {
+    color: #55AAFF;
+}
+
+.text-gray {
+    color: #AAAAAA;
+}
+
+.text-purple {
+    color: #AA55FF;
+}
+
+.text-aqua {
+    color: #55FFFF;
+}
+
+#singleplayerScreen {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent to show panorama */
+    z-index: 100;
+}
+
+.screenTitle {
+    color: white;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    font-size: 24px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+.worldListContainer {
+    width: 60%;
+    height: 60%;
+    background-color: rgba(0, 0, 0, 0.6);
+    overflow-y: auto;
+    border-top: 4px solid #111;
+    border-bottom: 4px solid #111;
+    box-shadow: inset 0px 4px 10px rgba(0,0,0,0.9), inset 0px -4px 10px rgba(0,0,0,0.9);
+}
+
+.worldList {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.worldItem {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.worldItem:hover {
+    border: 2px solid white;
+}
+
+.worldItem.selected {
+    border: 2px solid white;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.worldIcon {
+    width: 64px;
+    height: 64px;
+    margin-right: 15px;
+    image-rendering: pixelated;
+}
+
+.worldDetails {
+    display: flex;
+    flex-direction: column;
+}
+
+.worldName {
+    color: white;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    font-size: 18px;
+}
+
+.worldInfo {
+    color: #AAAAAA;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+.worldScreenButtons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.worldScreenButtons .row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.worldScreenButtons .bottomBtn {
+    background-image: var(--default-background-button);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    height: 52px; /* Taller button */
+    flex: 1;
+    cursor: pointer;
+    font-size: 16px;
+    border: 2px solid transparent;
+}
+
+.worldScreenButtons .bottomBtn:hover {
+    border: 3px solid white;
+}
+
+#createWorldScreen {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent to show panorama */
+    z-index: 100;
+}
+
+.createWorldHeader {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    border-bottom: 2px solid #555;
+    background: transparent;
+    padding-top: 20px;
+}
+
+.tabs {
+    display: flex;
+    gap: 0px;
+}
+
+.tab {
+    padding: 10px 40px;
+    color: white;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    border-right: 2px solid #555;
+    border-left: 2px solid transparent;
+    font-size: 16px;
+}
+.tab:first-child {
+    border-left: 2px solid #555;
+}
+
+.tab:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.tab.selected {
+    border-bottom: 4px solid white;
+    margin-bottom: -2px;
+}
+
+.createWorldContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+    background: transparent;
+    padding: 30px;
+    border: none;
+    box-shadow: none;
+    z-index: 1;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    width: 800px; /* Much wider (longer) */
+    margin-bottom: 35px; /* Increased from 20px for more gap */
+}
+
+.inputGroup label {
+    color: white;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    font-size: 16px;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.inputGroup input {
+    background-color: black;
+    border: 2px solid white;
+    color: white;
+    padding: 15px;
+    height: 60px; /* Taller box (mota) */
+    font-family: "Mojangles", sans-serif;
+    font-size: 20px; /* Slightly larger text to fit new height */
+    outline: none;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    box-sizing: border-box;
+}
+
+.inputGroup input:focus {
+    border-color: #55AAFF;
+}
+
+.optionsGrid {
+    display: flex;
+    flex-direction: column;
+    width: 800px; /* Much wider buttons container */
+    gap: 25px; /* Increased from 15px for more gap */
+    align-items: center;
+}
+
+.tabPanel {
+    display: flex;
+    flex-direction: column;
+    width: 800px;
+    align-items: center;
+}
+
+.optionsRow {
+    display: flex;
+    width: 100%;
+}
+
+.toggleRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.toggleLabel {
+    color: white;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    font-size: 18px;
+    text-align: left;
+}
+
+.toggleBtn {
+    width: 150px;
+    flex: 0 0 150px;
+}
+
+.disabledBtn {
+    color: #888 !important;
+    text-shadow: 2px 2px 0 #111 !important;
+    cursor: not-allowed;
+    background-image: var(--default-background-button);
+}
+
+.disabledBtn:hover {
+    border-color: transparent !important;
+    background-image: var(--default-background-button) !important;
+}
+
+.optionBtn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px; /* Slightly larger text to fit new height */
+    cursor: pointer;
+    background-image: var(--default-background-button);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: white;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    border: 2px solid transparent;
+    height: 60px; /* Taller option buttons (mota) */
+}
+.optionBtn:hover {
+    border: 2px solid white;
+    background-image: var(--default-highlighted-background-button);
+}
+
+#worldLoadingScreen {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    z-index: 200;
+}
+
+#loadingMinecraftLogo {
+    width: 400px;
+    margin-bottom: 30px;
+    image-rendering: pixelated;
+}
+
+.loadingBox {
+    width: 600px;
+    background-color: #2c2d2e; /* Original Bedrock dark gray dialog bg */
+    border: 4px solid #dbdbdb; /* Original Bedrock light gray dialog border */
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loadingTitle {
+    color: #AAA;
+    font-size: 22px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 0 #000;
+}
+
+.loadingTipContainer {
+    width: 100%;
+    background-color: #000000; /* Solid black container */
+    border: 2px solid #5a5b5c; /* Dark border */
+    padding: 20px;
+    margin-bottom: 25px;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+#loadingTipText {
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    text-shadow: 2px 2px 0 #000;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.loadingBarBg {
+    width: 100%;
+    height: 10px; /* Thin bar to match Minecraft Bedrock exactly */
+    background-color: #000000;
+    background-image: repeating-linear-gradient(
+        90deg,
+        #22450d,             /* Inactive dark green segment */
+        #22450d 18px,
+        #000000 18px,        /* Black gap */
+        #000000 21px
+    );
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    position: relative;
+    padding: 0;
+}
+
+#worldLoadingBar {
+    width: 0%;
+    height: 100%;
+    /* Aligned active green repeating gradient */
+    background-image: repeating-linear-gradient(
+        90deg,
+        #80c71f,             /* Active light Minecraft green segment */
+        #80c71f 18px,
+        #000000 18px,        /* Black gap */
+        #000000 21px
+    );
+    background-size: 100% 100%;
+}
+
+/* Sub-screen Overlays (Game Rules, Experiments, Data Packs) */
+.overlayScreen {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    z-index: 10005;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 40px;
+    box-sizing: border-box;
+    overflow-y: hidden;
+}
+
+.screenTitle {
+    color: white;
+    font-size: 24px;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.screenContent {
+    flex: 1;
+    width: 800px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding-right: 10px;
+    box-sizing: border-box;
+}
+
+/* Custom Scrollbar for rules/pack lists */
+.screenContent::-webkit-scrollbar,
+.packList::-webkit-scrollbar {
+    width: 6px;
+}
+
+.screenContent::-webkit-scrollbar-track,
+.packList::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.screenContent::-webkit-scrollbar-thumb,
+.packList::-webkit-scrollbar-thumb {
+    background: #555;
+    border: 1px solid #111;
+}
+
+.rulesList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.ruleRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 12px;
+    box-sizing: border-box;
+}
+
+.ruleInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: left;
+    max-width: 600px;
+}
+
+.ruleName {
+    color: white;
+    font-size: 18px;
+    text-shadow: 2px 2px 0 #3f3f3f;
+}
+
+.ruleDesc {
+    color: #aaa;
+    font-size: 13px;
+    text-shadow: 1px 1px 0 #222;
+}
+
+.ruleInput {
+    width: 150px;
+    height: 52px;
+    background-color: #000;
+    border: 2px solid #555;
+    color: white;
+    font-family: inherit;
+    font-size: 16px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.ruleInput:focus {
+    border-color: white;
+    outline: none;
+}
+
+.warningBanner {
+    background: #3a0b0b;
+    border: 2px solid #ff5555;
+    color: #ff5555;
+    padding: 12px;
+    font-size: 15px;
+    text-align: center;
+    text-shadow: 2px 2px 0 #000;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.packItem:hover {
+    border-color: white !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+}
+
+.packItem.activePack {
+    border-color: #80c71f !important;
+    background: rgba(128, 199, 31, 0.15) !important;
+}
