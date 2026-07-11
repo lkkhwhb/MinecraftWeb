@@ -59,7 +59,7 @@ document.getElementById("audioButton").addEventListener("click", toggleBgMusic);
 
 panorama.start();
 document.getElementById("quitGame").addEventListener("click", () => {
-    window.location.replace("/");
+    window.location.reload();
 });
 
 // Singleplayer Screen Logic
