@@ -1,0 +1,7 @@
+minecraft_assets/*
+
+!minecraft_assets/textures/
+!minecraft_assets/textures/**
+
+!minecraft_assets/sounds/
+!minecraft_assets/sounds/**

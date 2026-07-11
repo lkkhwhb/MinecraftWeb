@@ -1,0 +1,380 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --default-background-button: url("minecraft_assets/textures/gui/sprites/friends/button.png");
+    --default-highlighted-background-button: url("minecraft_assets/textures/gui/sprites/friends/button_highlighted.png");
+    --default-background-button-disabled: url("minecraft_assets/textures/gui/sprites/friends/button_disabled.png");
+    --default-square-button: url("custom_assets/button.png")
+}
+
+@font-face {
+    font-family: "Mojangles";
+    src: url("custom_assets/mojangles.otf/mojangles.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    user-select: none;
+    font-family: "Mojangles", sans-serif;
+    background-color: black;
+}
+
+#panorama,
+#blurOverlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#panorama {
+    display: block;
+}
+
+.hud {
+    height: 100%;
+    width: 100%;
+    overflow-y: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.hud #menu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60vw;
+    height: 100vh;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.hud #menu .logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    height: max-content;
+}
+
+.hud #menu .logo #editionLogo {
+    position: relative;
+    bottom: 120px;
+}
+
+@keyframes zoomInZoomOut {
+    0% {
+        transform: rotate(-30deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(-30deg) scale(1.2);
+    }
+
+    100% {
+        transform: rotate(-30deg) scale(1);
+    }
+} 
+
+#splashText {
+    position: absolute;
+    top: 15vh;
+    left: 65%;
+    transform: translateX(-50%);
+
+    color: yellow;
+    font-size: 26px;
+    max-width: 200px;
+    white-space: normal;
+    overflow-wrap: break-word;
+    text-align: center;
+
+    animation: zoomInZoomOut 0.8s infinite ease-in-out;
+    z-index: 10000;
+}
+#buttons {
+    color: white;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 70%;
+    height: 20dvh;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+#buttons .menuButton {
+    background-image:var(--default-background-button);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    height: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+}
+#buttons .menuButton:hover{
+    border: 3px solid white;
+}
+
+.button-disabled{
+    background-image: var(--default-background-button-disabled) !important;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    cursor: not-allowed;
+
+}
+.button-disabled:hover{
+    border: none !important;
+
+}
+#middleButtons{ 
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 5%;
+}
+#middleButtons .iconButton{
+    background-image: var(--default-square-button);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#middleButtons .iconButton:hover{
+    border: 3px solid white;
+}
+#middleButtons .iconButton img{
+    height: 25px;
+    width:  25px;
+}
+#audioButton img{
+    height: 20px;
+    width: 20px;
+}
+
+.bottomButtons {
+    width: 40%;
+    height: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    margin: 2px;
+}
+.bottomButtons .bottomBtn {
+    background-image: var(--default-background-button);
+    height: 85%;
+    width: 55%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+}
+
+.bottomButtons .bottomBtn:hover {
+    border: 3px solid white;
+}
+
+#footer{
+    z-index: 100;
+    position: absolute;
+    bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    width: 100vw;
+    color: white;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    padding: 10px;
+    font-size: 18px;
+}
+
+#audioButton{
+    position: absolute;
+    z-index: 105;
+    background-image: var(--default-square-button);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    bottom: 50px;
+    right: 10px;
+}
+.hovered{
+    border: 3px solid white;
+    cursor: pointer;
+}
+
+#loadingScreen {
+    position: fixed;
+    inset: 0;
+    background: #ef323d;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+
+#mojangLogo {
+    width: 50vw;
+}
+
+#loadingBarContainer {
+    position: absolute;
+    top: 75%;
+    width: 400px;
+    height: 15px;
+    background: #444;
+    z-index: 1000;
+}
+
+#loadingBar {
+    width: 0%;
+    height: 100%;
+    background: white;
+    transition: width .15s linear;
+}
+
+#loadingScreen.fade {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .4s;
+}
+
+#debugScreen {
+    position: fixed;
+    top: 6px;
+    left: 6px;
+    color: white;
+    font-size: 15px;
+    white-space: pre;
+    text-shadow: 2px 2px 2px black;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+
+#debugScreen {
+    position: fixed;
+    top: 6px;
+    left: 6px;
+    color: white;
+    font-size: 15px;
+    white-space: pre;
+    text-shadow: 2px 2px 2px black;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.debug-line{
+    display:inline-block;
+    background:rgba(0,0,0,.42);
+    padding:2px 4px;
+    margin-bottom:1px;
+    color:#fff;
+    font-size:16px;
+    white-space:pre;
+    text-shadow:2px 2px #3f3f3f;
+}
+#debug-left,
+#debug-right{
+    position:fixed;
+    top:4px;
+    z-index:99999;
+    font-size:15px;
+    color:white;
+    pointer-events:none;
+}
+
+#debug-left{
+    left:4px;
+}
+
+#debug-right{
+    right:4px;
+    text-align:right;
+}
+
+.debug-line{
+    display:block;
+    width:fit-content;
+    padding:2px 4px;
+    margin-bottom:1px;
+    background:rgba(0,0,0,.45);
+    text-shadow:2px 2px black;
+}
+
+#debug-right .debug-line{
+    margin-left:auto;
+}
+
+
+.text-white {
+    color: #ffffff;
+}
+
+.text-green {
+    color: #55FF55;
+}
+
+.text-red {
+    color: #FF5555;
+}
+
+.text-orange {
+    color: #FFAA00;
+}
+
+.text-yellow {
+    color: #FFFF55;
+}
+
+.text-blue {
+    color: #55AAFF;
+}
+
+.text-gray {
+    color: #AAAAAA;
+}
+
+.text-purple {
+    color: #AA55FF;
+}
+
+.text-aqua {
+    color: #55FFFF;
+}

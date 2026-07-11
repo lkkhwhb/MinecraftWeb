@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>26.2</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="importmap">
+        {
+          "imports": {
+              "three": "https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js",
+              "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.1/examples/jsm/"
+          }
+        }
+    </script>
+    <script type="module" src="script.js" defer></script>
+</head>
+<body>
+    <div id="loadingScreen">
+        <img id="mojangLogo" src="custom_assets/mojang-logo-2.gif">
+        <div id="loadingBarContainer">
+            <div id="loadingBar"></div>
+        </div>
+    </div>
+    <div id="debugScreen" hidden></div>
+    <div id="splashText">Open Sourced!</div>
+    <!-- Main HUD -->
+    <div class="hud">
+        <canvas id="panorama"></canvas>
+        <div id="blurOverlay"></div>
+
+        <div id="menu">
+            <div class="logo">
+                <img id="minecraftLogo" src="minecraft_assets/textures/gui/title/minecraft.png">
+                <img id="editionLogo" src="minecraft_assets/textures/gui/title/edition.png">
+            </div>
+            <div id="buttons">
+                <div class="menuButton" id="singleplayerButton" title="Singleplayer">Singleplayer</div>
+                <div class="menuButton button-disabled" id="multiplayerButton" title="Multiplayer">Multiplayer</div>
+                <div class="menuButton button-disabled" id="realmsButton" title="Minecraft Realms">Minecraft Realms</div>
+            </div>
+
+            <div id="middleButtons">
+                <div class="iconButton" id="friends" title="Friends">
+                    <img src="minecraft_assets/textures/gui/sprites/friends/friends.png">
+                </div>
+
+                <div class="iconButton" id="language" title="Language">
+                    <img src="minecraft_assets/textures/gui/sprites/icon/language.png">
+                </div>
+
+                <div class="iconButton" id="accessibility" title="Accessibility">
+                    <img src="minecraft_assets/textures/gui/sprites/icon/accessibility.png">
+                </div>
+
+                <div class="iconButton" id="modMenu" title="Mod menu">
+                    <img src="custom_assets/modmenu.png">
+                </div>
+            </div>
+
+            <div class="bottomButtons">
+                <div class="bottomBtn" title="Options">Options...</div>
+                <div class="bottomBtn" id="quitGame" title="Restart Game">Restart Game</div>
+            </div>
+    </div>
+    <div id="footer">
+        <div id="gameVersionInfo"></div>
+        <div class="right-side">
+            
+            <div class="copyrightInfo">
+                <p>Copyright Bhargav.B . Do not distribute!</p>
+            </div>
+        </div>
+    </div>
+    <div id="audioButton">
+        <img src="custom_assets/audioicon.png" alt="Audio">
+    </div>
+</body>
+</html>
